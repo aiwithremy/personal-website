@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remy Gaskell – Building Products & Curating Insights</title>
+    <meta name="description" content="Remy Gaskell builds products, curates insights, and shares lessons. Based in New York City.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           CSS Variables & Reset (Ultra-aligned)
+           ============================================ */
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --gray-50: #F9F9F9;
+            --gray-100: #F4F4F4;
+            --gray-200: #EDEDED;
+            --gray-300: #DDDDDD;
+            --gray-400: #A0A0A0;
+            --gray-500: #707070;
+            --gray-600: #505050;
+            --gray-700: #343434;
+            --gray-800: #2E2E2E;
+
+            --content-width: 540px;
+            --label-offset: -90px;
+            --section-gap: 40px;
+            --container-padding: 24px;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Button reset - remove browser defaults so button classes can style properly */
+        button {
+            font: inherit;
+            background: none;
+            border: none;
+            cursor: pointer;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           Layout Structure - Centered with Left Labels
+           ============================================ */
+        .page-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-container {
+            width: 100%;
+            max-width: var(--content-width);
+            padding: 0 var(--container-padding);
+        }
+
+        .section-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0 var(--container-padding);
+            overflow: visible;
+        }
+
+        .section {
+            position: relative;
+            width: 100%;
+            max-width: var(--content-width);
+            padding: var(--section-gap) 0;
+            overflow: visible;
+        }
+
+        .section-label {
+            position: absolute;
+            left: var(--label-offset);
+            top: var(--section-gap);
+            width: auto;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--gray-400);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .section-content {
+            width: 100%;
+        }
+
+        /* ============================================
+           Hero Header (Ultra-aligned)
+           ============================================ */
+        .hero {
+            padding: 60px 0 var(--section-gap);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-display {
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--gray-500);
+            letter-spacing: 0.02em;
+            margin-bottom: 32px;
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: var(--gray-200);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gray-800);
+            letter-spacing: -0.01em;
+            margin-bottom: 4px;
+        }
+
+        .hero-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--gray-500);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        /* Social Icons */
+        .social-bar {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: all 200ms var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Action Buttons */
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .action-row span {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            min-width: 140px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 400;
+            font-family: inherit;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 200ms var(--transition);
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background: var(--gray-50);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .btn-primary:hover {
+            background: var(--gray-100);
+            border-color: var(--gray-300);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+            color: var(--gray-400);
+        }
+
+        /* Coordinates */
+        .coordinates {
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--gray-400);
+            letter-spacing: 0.02em;
+        }
+
+        .coordinates span {
+            margin: 0 8px;
+        }
+
+        /* ============================================
+           About Section
+           ============================================ */
+        .about-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--gray-500);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ============================================
+           Work Section
+           ============================================ */
+        .work-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .work-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 200ms var(--transition);
+        }
+
+        .work-card:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            transform: translateY(-2px);
+        }
+
+        .work-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .work-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--gray-600);
+        }
+
+        .work-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .work-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+
+        .work-desc {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           Stack Section
+           ============================================ */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .stack-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 12px;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 200ms var(--transition);
+        }
+
+        .stack-card:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+            transform: translateY(-2px);
+        }
+
+        .stack-card.static {
+            cursor: default;
+        }
+
+        .stack-card.static:hover {
+            background: var(--white);
+            border-color: var(--gray-200);
+            transform: none;
+        }
+
+        .stack-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stack-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--gray-600);
+        }
+
+        .stack-name {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--gray-500);
+            text-align: center;
+        }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        .footer {
+            width: 100%;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        /* ============================================
+           Responsive Design
+           ============================================ */
+
+        /* Tablet (810px - 1199px) */
+        @media (min-width: 810px) and (max-width: 1199px) {
+            :root {
+                --content-width: 480px;
+                --label-offset: -80px;
+                --section-gap: 32px;
+            }
+
+            .stack-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Mobile (809px and below) */
+        @media (max-width: 809px) {
+            :root {
+                --section-gap: 32px;
+                --container-padding: 32px;
+            }
+
+            .section {
+                max-width: 540px;
+            }
+
+            .section-label {
+                position: static;
+                text-align: left;
+                margin-bottom: 16px;
+            }
+
+            .hero-container {
+                max-width: 540px;
+            }
+
+            .hero {
+                padding: 48px 0 40px;
+            }
+
+            .hero-name {
+                font-size: 18px;
+            }
+
+            .action-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .action-row span {
+                display: none;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                max-width: 260px;
+            }
+
+            .stack-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .social-bar {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* ============================================
+           Copy Feedback
+           ============================================ */
+        .copy-feedback {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--gray-800);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0;
+            transition: all 300ms var(--transition);
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .copy-feedback.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Hero Header -->
+        <div class="hero-container">
+            <header class="hero">
+                <div class="time-display" id="time">3:40 PM</div>
+
+                <div class="avatar">
+                    <img src="Website Assets/pfp.png" alt="Remy Gaskell">
+                </div>
+
+                <h1 class="hero-name">Remy Gaskell</h1>
+                <p class="hero-title">Building products, curating insights,<br>and sharing lessons.</p>
+
+                <nav class="social-bar">
+                    <a href="https://x.com/remy_gaskell" class="social-icon" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4l11.733 16h4.267l-11.733 -16l-4.267 0" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg>
+                    </a>
+                    <a href="https://www.instagram.com/aiwithremy/" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M16.5 7.5v.01" /></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/remygaskell/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg>
+                    </a>
+                    <a href="https://github.com/aiwithremy" class="social-icon" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@aiwithremy" class="social-icon" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8" /><path d="M10 9l5 3l-5 3l0 -6" /></svg>
+                    </a>
+                    <a href="https://open.spotify.com/user/n2knys6pdwguyiki0fsfyjx70?si=3fd2f010f0884e32" class="social-icon" aria-label="Spotify" target="_blank" rel="noopener noreferrer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 11.973c2.5 -1.473 5.5 -.973 7.5 .527" /><path d="M9 15c1.5 -1 4 -1 5 .5" /><path d="M7 9c2 -1 6 -2 10 .5" /></svg>
+                    </a>
+                </nav>
+
+                <div class="action-row">
+                    <a href="mailto:remy@remygaskell.com" class="btn btn-primary">
+                        Contact me
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </a>
+                    <span>or</span>
+                    <button class="btn btn-secondary" onclick="copyEmail()">
+                        Copy email
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </button>
+                </div>
+
+                <p class="coordinates">MEL, AUS<span>·</span>37.9394° S, 145.0006° E</p>
+            </header>
+        </div>
+
+        <!-- About Section -->
+        <div class="section-container">
+            <section class="section">
+                <div class="section-label">About</div>
+                <div class="section-content">
+                    <div class="about-text">
+                        <p>I'm Remy Gaskell, a multidisciplinary designer and strategist based in New York City.</p>
+                        <p>With a passion for building digital systems that scale, I help brands and startups craft experiences that resonate with their audiences. My approach combines strategic thinking with hands-on design execution.</p>
+                        <p>Whether it's designing product interfaces, developing growth frameworks, or building brand identities, my attention to detail and dedication to excellence has earned me a reputation for delivering exceptional results.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Work Section -->
+        <div class="section-container">
+            <section class="section">
+                <div class="section-label">Work</div>
+                <div class="section-content">
+                    <div class="work-cards">
+                        <a href="#" class="work-card">
+                            <div class="work-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                            </div>
+                            <div class="work-info">
+                                <h3 class="work-title">Redesigning Gamma</h3>
+                                <p class="work-desc">Led the complete visual overhaul of Gamma's product suite, establishing a new design system.</p>
+                            </div>
+                        </a>
+                        <a href="#" class="work-card">
+                            <div class="work-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                            </div>
+                            <div class="work-info">
+                                <h3 class="work-title">Building a design system for Beta</h3>
+                                <p class="work-desc">Created a comprehensive component library powering 15+ products across the organization.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Stack Section -->
+        <div class="section-container">
+            <section class="section">
+                <div class="section-label">Stack</div>
+                <div class="section-content">
+                    <div class="stack-grid">
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.375 0 0 5.375 0 12s5.375 12 12 12 12-5.375 12-12S18.625 0 12 0zm.768 4.105c.183 0 .363.053.525.157.125.083.287.185.755 1.154.31-.088.468-.042.551-.019.021.577.021.577.017.636-.083.021-.256.063-.431.063-.021.578-.021.578-.021.636.068.005.143.005.231.005 1.337 0 2.42 1.084 2.42 2.42 0 1.337-1.083 2.42-2.42 2.42-1.337 0-2.42-1.083-2.42-2.42 0-.578.203-1.109.542-1.525-.579-.104-1.072-.389-1.072-.389s-.183.099-.399.183c-.536.21-1.188.315-1.188.315s.063.578.063 1.156c0 .399-.047.798-.141 1.188-.094.389-.236.768-.425 1.125-.189.357-.425.693-.704.999-.279.305-.599.578-.956.809-.357.231-.746.42-1.161.557-.416.136-.853.21-1.304.21-.451 0-.888-.074-1.304-.21-.416-.137-.804-.326-1.161-.557-.357-.231-.678-.504-.956-.809-.279-.306-.515-.642-.704-.999-.189-.357-.331-.736-.425-1.125-.094-.39-.141-.789-.141-1.188s.047-.798.141-1.188c.094-.389.236-.768.425-1.125.189-.357.425-.693.704-.999.279-.305.599-.578.956-.809.357-.231.746-.42 1.161-.557.416-.136.853-.21 1.304-.21.451 0 .888.074 1.304.21.416.137.804.326 1.161.557.357.231.678.504.956.809.279.306.515.642.704.999.189.357.331.736.425 1.125.052.216.089.435.111.656.152-.016.304-.025.458-.025.389 0 .767.052 1.125.147.188-.473.399-.935.798-1.261.125-.099.267-.183.425-.241.157-.058.326-.087.499-.087h.009z"/></svg>
+                            </div>
+                            <span class="stack-name">Figma</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12.713l-11.985-6.713c0-0.006 0-0.012 0-0.018 0-0.866 0.468-1.621 1.164-2.027l9.852-5.681c0.619-0.357 1.381-0.357 2 0l9.852 5.681c0.696 0.406 1.164 1.161 1.164 2.027 0 0.006 0 0.012 0 0.018l-12.047 6.713zM23.047 17.282l-11.047 6.374-11.047-6.374c-0.574-0.331-0.953-0.942-0.953-1.64 0-0.006 0-0.012 0-0.018l11 6.332v-11.97l11-6.154v11.792c0 0.006 0 0.012 0 0.018 0 0.698-0.379 1.309-0.953 1.64z"/></svg>
+                            </div>
+                            <span class="stack-name">Framer</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>
+                            </div>
+                            <span class="stack-name">Tailwind</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.251 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.572 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z"/></svg>
+                            </div>
+                            <span class="stack-name">Next.js</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38a2.167 2.167 0 0 0-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44a23.476 23.476 0 0 0-3.107-.534A23.892 23.892 0 0 0 12.769 4.7c1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442a22.73 22.73 0 0 0-3.113.538 15.02 15.02 0 0 1-.254-1.42c-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87a25.64 25.64 0 0 1-4.412.005 26.64 26.64 0 0 1-1.183-1.86c-.372-.64-.71-1.29-1.018-1.946a25.17 25.17 0 0 1 1.013-1.954c.38-.66.773-1.286 1.18-1.868A25.245 25.245 0 0 1 12 8.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933a25.952 25.952 0 0 0-1.345-2.32zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493a23.966 23.966 0 0 0-1.1-2.98c.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39a25.819 25.819 0 0 0 1.341-2.338zm-9.945.02c.24.38.48.768.705 1.165.225.39.435.788.636 1.18-.7.11-1.378.236-2.025.392.18-.63.406-1.282.684-1.937zm4.985 1.87c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>
+                            </div>
+                            <span class="stack-name">React</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg>
+                            </div>
+                            <span class="stack-name">JavaScript</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>
+                            </div>
+                            <span class="stack-name">CSS</span>
+                        </div>
+                        <div class="stack-card static">
+                            <div class="stack-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                            </div>
+                            <span class="stack-name">GitHub</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">&copy; 2026 Remy Gaskell. All rights reserved.</p>
+    </footer>
+
+    <!-- Copy Feedback Toast -->
+    <div class="copy-feedback" id="copyFeedback">Email copied to clipboard</div>
+
+    <script>
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            document.getElementById('time').textContent = `${hours}:${minutes} ${ampm}`;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Copy email functionality
+        function copyEmail() {
+            navigator.clipboard.writeText('remy@remygaskell.com').then(() => {
+                const feedback = document.getElementById('copyFeedback');
+                feedback.classList.add('show');
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
