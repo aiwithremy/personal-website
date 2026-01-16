@@ -1,6 +1,8 @@
 .DS_Store
 .claude/
 Screenshot*.png
+*.png
+!Website Assets/*.png
 index-backup-dont-touch.html
 Website Design Swipefile/
 Spacing Margins and Padding/
