@@ -33,6 +33,12 @@
             --section-gap: 45px;
             --container-padding: 24px;
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Animation timing variables */
+            --anim-duration: 600ms;
+            --anim-stagger: 80ms;
+            --anim-easing: cubic-bezier(0.16, 1, 0.3, 1);
+            --anim-easing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         *, *::before, *::after {
@@ -517,44 +523,192 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        /* Page initial state */
+        .page-wrapper.loading {
+            opacity: 0;
+        }
+
+        /* ============================================
+           Content Animation States
+           ============================================ */
+        .anim-fade {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .anim-fade.animate {
+            animation: fadeUp var(--anim-duration) var(--anim-easing) forwards;
+        }
+
+        .anim-icon {
+            opacity: 0;
+            transform: translateY(12px) scale(0.9);
+        }
+
+        .anim-icon.animate {
+            animation: iconPop var(--anim-duration) var(--anim-easing-bounce) forwards;
+        }
+
+        .anim-section {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .anim-section.animate {
+            animation: sectionFadeUp 800ms var(--anim-easing) forwards;
+        }
+
+        /* Hero avatar starts hidden, appears after preloader */
+        .hero .avatar.anim-avatar {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .hero .avatar.anim-avatar.animate {
+            animation: avatarSettle 500ms var(--anim-easing) forwards;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes iconPop {
+            0% {
+                opacity: 0;
+                transform: translateY(12px) scale(0.9);
+            }
+            70% {
+                transform: translateY(-2px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes sectionFadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes avatarSettle {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Coordinate lottery animation */
+        .coord-text,
+        .coord-sep {
+            opacity: 0;
+            transition: opacity 400ms var(--anim-easing);
+        }
+
+        .coord-text.visible,
+        .coord-sep.visible {
+            opacity: 1;
+        }
+
+        .coord-num {
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 200ms var(--anim-easing);
+        }
+
+        .coord-num.visible {
+            opacity: 1;
+        }
+
+        .coord-suffix {
+            opacity: 0;
+            transition: opacity 400ms var(--anim-easing);
+        }
+
+        .coord-suffix.visible {
+            opacity: 1;
+        }
+
+        /* ============================================
+           Accessibility: Reduced Motion
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            .page-wrapper.loading {
+                opacity: 1 !important;
+            }
+
+            .anim-fade,
+            .anim-icon,
+            .anim-section,
+            .hero .avatar.anim-avatar {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .coord-text,
+            .coord-sep,
+            .coord-num,
+            .coord-suffix {
+                opacity: 1 !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="page-wrapper">
+    <div class="page-wrapper loading" id="pageWrapper">
         <!-- Hero Header -->
         <div class="hero-container">
             <header class="hero">
-                <div class="time-display" id="time">3:40 PM</div>
+                <div class="time-display anim-fade" id="time">3:40 PM</div>
 
-                <div class="avatar">
+                <div class="avatar anim-avatar">
                     <img src="Website Assets/pfp.png" alt="Remy Gaskell">
                 </div>
 
-                <h1 class="hero-name">Remy Gaskell</h1>
-                <p class="hero-title">Building products, curating insights,<br>and sharing lessons.</p>
+                <h1 class="hero-name anim-fade">Remy Gaskell</h1>
+                <p class="hero-title anim-fade">Building products, curating insights,<br>and sharing lessons.</p>
 
                 <nav class="social-bar">
-                    <a href="https://x.com/remy_gaskell" class="social-icon" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
+                    <a href="https://x.com/remy_gaskell" class="social-icon anim-icon" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4l11.733 16h4.267l-11.733 -16l-4.267 0" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg>
                     </a>
-                    <a href="https://www.instagram.com/aiwithremy/" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/aiwithremy/" class="social-icon anim-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M16.5 7.5v.01" /></svg>
                     </a>
-                    <a href="https://www.linkedin.com/in/remygaskell/" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.linkedin.com/in/remygaskell/" class="social-icon anim-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg>
                     </a>
-                    <a href="https://github.com/aiwithremy" class="social-icon" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                    <a href="https://github.com/aiwithremy" class="social-icon anim-icon" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg>
                     </a>
-                    <a href="https://www.youtube.com/@aiwithremy" class="social-icon" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.youtube.com/@aiwithremy" class="social-icon anim-icon" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8" /><path d="M10 9l5 3l-5 3l0 -6" /></svg>
                     </a>
-                    <a href="https://open.spotify.com/user/n2knys6pdwguyiki0fsfyjx70?si=3fd2f010f0884e32" class="social-icon" aria-label="Spotify" target="_blank" rel="noopener noreferrer">
+                    <a href="https://open.spotify.com/user/n2knys6pdwguyiki0fsfyjx70?si=3fd2f010f0884e32" class="social-icon anim-icon" aria-label="Spotify" target="_blank" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M8 11.973c2.5 -1.473 5.5 -.973 7.5 .527" /><path d="M9 15c1.5 -1 4 -1 5 .5" /><path d="M7 9c2 -1 6 -2 10 .5" /></svg>
                     </a>
                 </nav>
 
-                <div class="action-row">
+                <div class="action-row anim-fade">
                     <a href="mailto:remy@remygaskell.com" class="btn btn-primary">
                         Contact me
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -566,12 +720,14 @@
                     </button>
                 </div>
 
-                <p class="coordinates">MEL, AUS<span>·</span>37.9394° S, 145.0006° E</p>
+                <p class="coordinates">
+                    <span class="coord-text">MEL, AUS</span><span class="coord-sep">·</span><span class="coord-num" id="coordLat">37.9394</span><span class="coord-suffix">° S, </span><span class="coord-num" id="coordLng">145.0006</span><span class="coord-suffix">° E</span>
+                </p>
             </header>
         </div>
 
         <!-- About Section -->
-        <div class="section-container">
+        <div class="section-container anim-section">
             <section class="section">
                 <div class="section-label">About</div>
                 <div class="section-content">
@@ -585,7 +741,7 @@
         </div>
 
         <!-- Work Section -->
-        <div class="section-container">
+        <div class="section-container anim-section">
             <section class="section">
                 <div class="section-label">Work</div>
                 <div class="section-content">
@@ -614,7 +770,7 @@
         </div>
 
         <!-- Stack Section -->
-        <div class="section-container">
+        <div class="section-container anim-section">
             <section class="section">
                 <div class="section-label">Stack</div>
                 <div class="section-content">
@@ -683,7 +839,166 @@
     <div class="copy-feedback" id="copyFeedback">Email copied to clipboard</div>
 
     <script>
-        // Update time display
+        // ============================================
+        // Entrance Animation Controller
+        // ============================================
+        const AnimationController = {
+            timing: {
+                preloaderFadeIn: 0,
+                preloaderHold: 0,
+                transitionDuration: 500,
+                contentStagger: 80,
+                iconStagger: 50,
+                sectionStagger: 150,
+                lotteryDuration: 1000
+            },
+
+            shouldAnimate() {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    return false;
+                }
+                return true;
+            },
+
+            init() {
+                if (!this.shouldAnimate()) {
+                    this.skipAnimation();
+                    return;
+                }
+                this.startSequence();
+            },
+
+            skipAnimation() {
+                document.getElementById('pageWrapper').classList.remove('loading');
+
+                document.querySelectorAll('.anim-fade, .anim-icon, .anim-section, .anim-avatar').forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+
+                document.querySelectorAll('.coord-text, .coord-sep, .coord-num, .coord-suffix').forEach(el => {
+                    el.classList.add('visible');
+                });
+            },
+
+            startSequence() {
+                const pageWrapper = document.getElementById('pageWrapper');
+                const heroAvatar = document.querySelector('.hero .avatar');
+
+                pageWrapper.classList.remove('loading');
+
+                // Animate avatar immediately
+                if (heroAvatar) heroAvatar.classList.add('animate');
+
+                // Start content animation
+                this.animateContent();
+            },
+
+            animateContent() {
+                const { contentStagger, iconStagger, sectionStagger } = this.timing;
+
+                // Animate fade items (time, name, title, action-row)
+                const fadeItems = document.querySelectorAll('.anim-fade');
+                fadeItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('animate');
+                    }, index * contentStagger);
+                });
+
+                // Animate social icons with stagger
+                const icons = document.querySelectorAll('.anim-icon');
+                const iconStartDelay = fadeItems.length * contentStagger;
+                icons.forEach((icon, index) => {
+                    setTimeout(() => {
+                        icon.classList.add('animate');
+                    }, iconStartDelay + (index * iconStagger));
+                });
+
+                // Animate sections
+                const sections = document.querySelectorAll('.anim-section');
+                const sectionStartDelay = iconStartDelay + (icons.length * iconStagger) + 100;
+                sections.forEach((section, index) => {
+                    setTimeout(() => {
+                        section.classList.add('animate');
+                    }, sectionStartDelay + (index * sectionStagger));
+                });
+
+                // Start coordinate lottery animation
+                setTimeout(() => {
+                    this.animateCoordinates();
+                }, iconStartDelay + 200);
+            },
+
+            animateCoordinates() {
+                const coordText = document.querySelector('.coord-text');
+                const coordSep = document.querySelector('.coord-sep');
+                const coordLat = document.getElementById('coordLat');
+                const coordLng = document.getElementById('coordLng');
+                const coordSuffixes = document.querySelectorAll('.coord-suffix');
+
+                // Show location text first
+                if (coordText) coordText.classList.add('visible');
+
+                setTimeout(() => {
+                    if (coordSep) coordSep.classList.add('visible');
+                }, 100);
+
+                // Start lottery animation for coordinates
+                setTimeout(() => {
+                    this.lotteryAnimation(coordLat, '37.9394', 800);
+                    this.lotteryAnimation(coordLng, '145.0006', 900);
+
+                    // Show suffixes after lottery starts
+                    setTimeout(() => {
+                        coordSuffixes.forEach(s => s.classList.add('visible'));
+                    }, 300);
+                }, 200);
+            },
+
+            lotteryAnimation(element, finalValue, duration) {
+                if (!element) return;
+
+                element.classList.add('visible');
+                const chars = finalValue.split('');
+                const startTime = Date.now();
+
+                const animate = () => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // Calculate which digits should settle (left to right)
+                    const settleThreshold = progress * chars.length;
+
+                    let display = '';
+                    chars.forEach((char, i) => {
+                        if (i < settleThreshold || char === '.') {
+                            display += char;
+                        } else {
+                            display += Math.floor(Math.random() * 10);
+                        }
+                    });
+
+                    element.textContent = display;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        element.textContent = finalValue;
+                    }
+                };
+
+                requestAnimationFrame(animate);
+            }
+        };
+
+        // Initialize animation on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            AnimationController.init();
+        });
+
+        // ============================================
+        // Time Display
+        // ============================================
         function updateTime() {
             const now = new Date();
             let hours = now.getHours();
@@ -696,7 +1011,9 @@
         updateTime();
         setInterval(updateTime, 1000);
 
-        // Copy email functionality
+        // ============================================
+        // Copy Email
+        // ============================================
         function copyEmail() {
             navigator.clipboard.writeText('remy@remygaskell.com').then(() => {
                 const feedback = document.getElementById('copyFeedback');
